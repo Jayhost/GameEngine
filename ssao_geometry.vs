@@ -6,6 +6,7 @@ layout (location = 2) in vec2 aTexCoords;
 out vec3 FragPos;
 out vec2 TexCoords;
 out vec3 Normal;
+out vec3 WorldPos;
 
 uniform bool invertedNormals;
 
@@ -17,6 +18,7 @@ void main()
 {
     vec4 viewPos = view * model * vec4(aPos, 1.0);
     FragPos = viewPos.xyz; 
+    WorldPos = vec3(model * vec4(aPos, 1.0));
     TexCoords = aTexCoords;
     
     mat3 normalMatrix = transpose(inverse(mat3(view * model)));

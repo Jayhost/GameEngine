@@ -250,7 +250,7 @@ int main()
 
     // load models
     // -----------
-    Model backpack(ghc::filesystem::path("resources/objects/backpack/house.obj"));
+    Model backpack(ghc::filesystem::path("resources/objects/backpack/sponza.obj"));
         // Model backpack(ghc::filesystem::path("resources/objects/backpack/stall.obj"));
 
     std::vector<glm::vec3> objectPositions;
@@ -380,6 +380,7 @@ int main()
     const unsigned int NR_LIGHTS = 100;
     std::vector<glm::vec3> lightPositions;
     std::vector<glm::vec3> lightColors;
+    //lightColors.push_back(lightColor);
 
     
     srand(13);
@@ -389,7 +390,7 @@ int main()
         float xPos = static_cast<float>(((rand() % 100) / 50.0) * 6.0 - 6.0);
         // float yPos = static_cast<float>(((rand() % 100) / 20.0) * 6.0 - 4.0);
         float yPos = static_cast<float>(((rand() % 100) / 50.0) * 6.0 - 4.0);
-        float zPos = static_cast<float>(((rand() % 100) / 50.0) * 6.0 - 3.0);
+        float zPos = static_cast<float>(((rand() % 100) / 50.0) * 6.0 - 13.0);
         lightPositions.push_back(glm::vec3(xPos, yPos, zPos));
         // also calculate random color
         float rColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.)
@@ -528,7 +529,7 @@ int main()
             shaderLightingPass.setFloat("lights[" + std::to_string(i) + "].Quadratic", quadratic);
             // then calculate radius of light volume/sphere
             const float maxBrightness = std::fmaxf(std::fmaxf(lightColors[i].r, lightColors[i].g), lightColors[i].b);
-           float radius = (-linear + std::sqrt(linear * linear - 4 * quadratic * (constant - (256.0f / 5.0f) * maxBrightness))) / (2.0f * quadratic);
+           float radius = (-linear + std::sqrt(linear * linear - 4 * quadratic * (constant - (256.0f / 5.0f) * maxBrightness))) / (2.0f * quadratic); //last value was 2.0
             // float radius = 500.0f;
             shaderLightingPass.setFloat("lights[" + std::to_string(i) + "].Radius", radius);
         }
@@ -544,7 +545,7 @@ int main()
         // // send light relevant uniforms
         // glm::vec3 lightPosView = glm::vec3(camera.GetViewMatrix() * glm::vec4(lightPos, 1.0));
         // shaderLightingPass.setVec3("light.Position", lightPosView);
-        // shaderLightingPass.setVec3("light.Color", lightColor);
+        // shaderLightingPass.setVec3("lights[0].Color", lightColors[0]);
         // // Update attenuation parameters
         // const float linear    = 0.09f;
         // const float quadratic = 0.032f;
@@ -573,18 +574,18 @@ int main()
 
         // 3. render lights on top of scene todo
         // --------------------------------
-        shaderLightBox.use();
-        shaderLightBox.setMat4("projection", projection);
-        shaderLightBox.setMat4("view", view);
-        for (unsigned int i = 0; i < lightPositions.size(); i++)
-        {
-            model = glm::mat4(1.0f);
-            model = glm::translate(model, lightPositions[i]);
-            model = glm::scale(model, glm::vec3(0.125f));
-            shaderLightBox.setMat4("model", model);
-            shaderLightBox.setVec3("lightColor", lightColors[i]);
-            renderCube();
-        }
+        // shaderLightBox.use();
+        // shaderLightBox.setMat4("projection", projection);
+        // shaderLightBox.setMat4("view", view);
+        // for (unsigned int i = 0; i < lightPositions.size(); i++)
+        // {
+        //     model = glm::mat4(1.0f);
+        //     model = glm::translate(model, lightPositions[i]);
+        //     model = glm::scale(model, glm::vec3(0.125f));
+        //     shaderLightBox.setMat4("model", model);
+        //     shaderLightBox.setVec3("lightColor", lightColors[i]);
+        //     renderCube();
+        // }
         //new for skybox
 
         // // draw skybox as last

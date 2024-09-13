@@ -13,7 +13,7 @@ uniform vec3 samples[64];
 // int kernelSize = 64; original
 // float radius = 0.5;
 // float bias = 0.025;
-int kernelSize = 64;
+int kernelSize = 32;
 float radius = 0.5;
 float bias = 0.025;
 
@@ -54,6 +54,7 @@ void main()
         occlusion += (sampleDepth >= samplePos.z + bias ? 1.0 : 0.0) * rangeCheck;           
     }
     occlusion = 1.0 - (occlusion / kernelSize);
+    occlusion = pow(occlusion,4.0);
     
     FragColor = occlusion;
 }
