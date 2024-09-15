@@ -4,3 +4,5 @@
 Graphics Engine - SSAO C++
 
 PBR - Deffered
+
+TODO: Working on Environment lighting
